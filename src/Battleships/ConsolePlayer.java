@@ -6,13 +6,4 @@ public class ConsolePlayer extends Player{
         super(name);
     }
 
-    @Override
-    public boolean placeShip(Ship ship, int row, int col) {
-        return false;
-    }
-
-    @Override
-    public boolean shoot(int row, int col) {
-        return false;
-    }
 }

@@ -18,10 +18,10 @@ public class Game {
     }
 
     private Player createPlayer() {
-        //Human vybere typ hráče z konzole
-        //Zadá jméno
-        //Vytvoří se instance
-        return null;
+        //Type
+        //Name
+        //...
+        return new ConsolePlayer("Honza");
     }
 
     public Player getPlayer1() {
@@ -33,7 +33,8 @@ public class Game {
     }
 
     public void startGame(){
-       placeShips();
+       placeShips(player1);
+       placeShips(player2);
        winner = war();
     }
 
@@ -41,7 +42,7 @@ public class Game {
         return null;
     }
 
-    private void placeShips() {}
+    private void placeShips(Player player) {}
 
     public void saveGame(){}
 

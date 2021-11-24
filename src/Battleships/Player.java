@@ -9,9 +9,4 @@ public abstract class Player {
         board = new Board();
         this.name = name;
     }
-
-    public abstract boolean placeShip(Ship ship, int row, int col);
-
-    public abstract boolean shoot(int row, int col);
-
 }
