@@ -1,21 +1,13 @@
 package Battleships;
 
-import jdk.jshell.spi.ExecutionControl;
-
 public class StraightShip extends Ship{
 
-    private final int length;
-
-    public StraightShip(int row, int col, byte rotation, int length) throws ExecutionControl.NotImplementedException {
-        super(row, col, rotation);
-        this.length = length;
-        if(!createOccupies()){
-            throw new ExecutionControl.NotImplementedException("Lod nelze umístit");
-        }
+    public StraightShip(int row, int col, byte rotation, int length) {
+        super(row, col, rotation, length);
     }
 
     public int getLength() {
-        return length;
+        return size;
     }
 
     @Override
@@ -32,6 +24,7 @@ public class StraightShip extends Ship{
                 occupies[i] = new Position(getStart().getRow() + i, getStart().getCol());
             }
         }
+
         return true;
     }
 }
