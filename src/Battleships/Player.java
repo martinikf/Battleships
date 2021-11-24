@@ -9,4 +9,7 @@ public abstract class Player {
         board = new Board();
         this.name = name;
     }
+
+    public Board getBoard(){return board;}
+    public String getName(){return name;}
 }
