@@ -9,6 +9,14 @@ public class Game {
     private final Player player2;
     private Player winner = null;
 
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
     public Game(int height, int width){
         BOARD_HEIGHT = height;
         BOARD_WIDTH = width;
@@ -24,18 +32,10 @@ public class Game {
         return new ConsolePlayer("Honza");
     }
 
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
     public void startGame(){
-       placeShips(player1);
-       placeShips(player2);
-       winner = war();
+        placeShips(player1);
+        placeShips(player2);
+        winner = war();
     }
 
     private Player war() {

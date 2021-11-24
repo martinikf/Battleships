@@ -19,12 +19,10 @@ public class StraightShip extends Ship{
             if(rotation == 0){
                 occupies[i] = new Position(getStart().getRow(), getStart().getCol() + i);
             }
-
-            else if(rotation == 1){
+            else{
                 occupies[i] = new Position(getStart().getRow() + i, getStart().getCol());
             }
         }
-
         return true;
     }
 }
