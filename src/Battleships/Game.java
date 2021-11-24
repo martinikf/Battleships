@@ -2,8 +2,8 @@ package Battleships;
 
 public class Game {
 
-    public static int BOARD_HEIGHT;
-    public static int BOARD_WIDTH;
+    public static int BOARD_HEIGHT = 8;
+    public static int BOARD_WIDTH = 8;
 
     private final Player player1;
     private final Player player2;
