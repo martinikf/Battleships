@@ -4,6 +4,7 @@ public class Position {
 
     private int row;
     private int col;
+    private boolean hit = false;
 
     public Position(int row, int col){
         this.row = row;
@@ -25,5 +26,13 @@ public class Position {
 
     public void setCol(int col) {
         this.col = col;
+    }
+
+    public boolean isHit() {
+        return hit;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
     }
 }
