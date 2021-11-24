@@ -31,12 +31,21 @@ public class Board {
         return shipsOnBoard;
     }
 
-    public boolean placeShip(Ship ship, int row, int col){
-        if(ship == null || row >= Game.BOARD_HEIGHT || row < 0 || col >= Game.BOARD_WIDTH || col < 0){
+    public boolean placeShip(Ship ship){
+        if(ship == null){
             return false;
         }
-
+        else if(canBePlaced(ship)){
+            for(var position : ship.getOccupies()){
+                board[position.getRow()][position.getCol()] = Tile.Ship;
+            }
+        }
         return false;
+    }
+
+    //Ověří zda je lod v hranicích pole a nepřekrývá jinou loď
+    private boolean canBePlaced(Ship ship) {
+        return true;
     }
 
     public void printBoard(){
