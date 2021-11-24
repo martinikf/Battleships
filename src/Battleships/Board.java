@@ -107,12 +107,27 @@ public class Board {
         return true;
     }
 
-    public void printBoardFull(){
+    public void printBoardPlayersPerspective(){
         for (int i = 0; i < Game.BOARD_HEIGHT; i++){
             for(int j = 0; j < Game.BOARD_WIDTH; j++){
                 switch (board[i][j]){
                     case Water -> System.out.print("-");
                     case Ship -> System.out.print("S");
+                    case Hit -> System.out.print("X");
+                    case Miss -> System.out.print("O");
+                }
+                System.out.print(" | ");
+            }
+            System.out.print(System.lineSeparator());
+        }
+    }
+
+    public void printBoardOpponentsPerspective(){
+        for (int i = 0; i < Game.BOARD_HEIGHT; i++){
+            for(int j = 0; j < Game.BOARD_WIDTH; j++){
+                switch (board[i][j]){
+                    case Water -> System.out.print("-");
+                    case Ship -> System.out.print("-");
                     case Hit -> System.out.print("X");
                     case Miss -> System.out.print("O");
                 }
