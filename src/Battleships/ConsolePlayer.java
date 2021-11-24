@@ -17,8 +17,8 @@ public class ConsolePlayer extends Player{
     public void placeBoats() {
         int boatsPlaced = 0;
 
-        while(boatsPlaced != 2){
-            getBoard().printBoardFull();
+        while(boatsPlaced != Game.BOATS_COUNT){
+            getBoard().printBoardPlayersPerspective();
             System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1)");
             String input = sc.nextLine();
             var inputSplit = input.split(":");
@@ -40,5 +40,4 @@ public class ConsolePlayer extends Player{
         System.out.println("Zadej řádek enter sloupec enter.");
         return new Coordinates(sc.nextInt(), sc.nextInt());
     }
-
 }
