@@ -14,4 +14,6 @@ public abstract class Player {
 
     public Board getBoard(){return board;}
     public String getName(){return name;}
+
+    public abstract Coordinates getShootCoords();
 }

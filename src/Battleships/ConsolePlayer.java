@@ -35,4 +35,10 @@ public class ConsolePlayer extends Player{
         }
     }
 
+    @Override
+    public Coordinates getShootCoords() {
+        System.out.println("Zadej řádek enter sloupec enter.");
+        return new Coordinates(sc.nextInt(), sc.nextInt());
+    }
+
 }

@@ -1,13 +1,9 @@
 package Battleships;
 
-import java.util.Scanner;
-
 public class Game {
 
     public static int BOARD_HEIGHT = 8;
     public static int BOARD_WIDTH = 8;
-
-    private Scanner sc = new Scanner(System.in);
 
     private final Player[] players = new Player[2];
     private Player winner = null;
@@ -51,10 +47,11 @@ public class Game {
             players[1].getBoard().printBoardFull();
             System.out.println("---------------------------------------");
 
-            System.out.println("Turn: " + turn + System.lineSeparator() + "Zadejte souřadnice row:column:");
-            String input = sc.nextLine();
-            var inputSplit = input.split(":");
-            switch(shoot(players[turn], players[1-turn], Integer.parseInt(inputSplit[0]), Integer.parseInt(inputSplit[1]))){
+            System.out.println("Turn: " + turn);
+
+            var coords = players[turn].getShootCoords();
+
+            switch(shoot(players[turn], players[1-turn], coords.row(), coords.col())){
                 case Hit:
                     continue;
                 case Miss:
