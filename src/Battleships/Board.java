@@ -40,20 +40,21 @@ public class Board {
                 board[position.getRow()][position.getCol()] = Tile.Ship;
             }
             shipsOnBoard.add(ship);
+            return true;
         }
         return false;
     }
 
     //Returns true if every boat was destroyed
-    public boolean shoot(int row, int col) throws Exception {
+    public ShootResult shoot(int row, int col) {
         if(!coordsInBounds(row, col)){
-            throw new Exception();
+            return ShootResult.Fault; //opravit
         }
 
         switch (board[row][col]){
             case Water:
                 board[row][col] = Tile.Miss;
-                return false;
+                return ShootResult.Miss;
             case Ship:
                 board[row][col] = Tile.Hit;
                 hit(row, col);
@@ -61,17 +62,17 @@ public class Board {
             case Miss:
             case Hit:
             default:
-                return false;
+                return ShootResult.Fault;
         }
     }
 
-    private boolean checkWin() {
+    private ShootResult checkWin() {
         for(var ship : shipsOnBoard){
             if(!ship.isDestroyed()){
-                return false;
+                return ShootResult.Hit;
             }
         }
-        return true;
+        return ShootResult.Win;
     }
 
     private void hit(int row, int col) {
@@ -106,10 +107,16 @@ public class Board {
         return true;
     }
 
-    public void printBoard(){
+    public void printBoardFull(){
         for (int i = 0; i < Game.BOARD_HEIGHT; i++){
             for(int j = 0; j < Game.BOARD_WIDTH; j++){
-                System.out.print(board[i][j] + " | ");
+                switch (board[i][j]){
+                    case Water -> System.out.print("-");
+                    case Ship -> System.out.print("S");
+                    case Hit -> System.out.print("X");
+                    case Miss -> System.out.print("O");
+                }
+                System.out.print(" | ");
             }
             System.out.print(System.lineSeparator());
         }

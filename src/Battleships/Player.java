@@ -10,6 +10,8 @@ public abstract class Player {
         this.name = name;
     }
 
+    public abstract void placeBoats();
+
     public Board getBoard(){return board;}
     public String getName(){return name;}
 }

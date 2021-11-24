@@ -1,28 +1,31 @@
 package Battleships;
 
+import java.util.Scanner;
+
 public class Game {
 
     public static int BOARD_HEIGHT = 8;
     public static int BOARD_WIDTH = 8;
 
-    private final Player player1;
-    private final Player player2;
+    private Scanner sc = new Scanner(System.in);
+
+    private final Player[] players = new Player[2];
     private Player winner = null;
 
     public Player getPlayer1() {
-        return player1;
+        return players[0];
     }
 
     public Player getPlayer2() {
-        return player2;
+        return players[1];
     }
 
     public Game(int height, int width){
         BOARD_HEIGHT = height;
         BOARD_WIDTH = width;
 
-        player1 = createPlayer();
-        player2 = createPlayer();
+        players[0] = createPlayer();
+        players[1] = createPlayer();
     }
 
     private Player createPlayer() {
@@ -33,19 +36,53 @@ public class Game {
     }
 
     public void startGame(){
-        placeShips(player1);
-        placeShips(player2);
-        winner = war();
+        placeShips();
+        war();
     }
 
+    //TODO SCANNER
     private Player war() {
+        int turn = 0;
+
+        while(winner == null){
+            System.out.println("Player1 board:");
+            players[0].getBoard().printBoardFull();
+            System.out.println("Player2 board:");
+            players[1].getBoard().printBoardFull();
+            System.out.println("---------------------------------------");
+
+            System.out.println("Turn: " + turn + System.lineSeparator() + "Zadejte souřadnice row:column:");
+            String input = sc.nextLine();
+            var inputSplit = input.split(":");
+            switch(shoot(players[turn], players[1-turn], Integer.parseInt(inputSplit[0]), Integer.parseInt(inputSplit[1]))){
+                case Hit:
+                    continue;
+                case Miss:
+                    turn = 1-turn;
+                    break;
+                case Win:
+                    System.out.println("Player - " + players[turn] + " has won!");
+                    return players[turn];
+                default:
+                case Fault:
+                    return null;
+            }
+        }
         return null;
     }
 
-    private void placeShips(Player player) {}
+    private void placeShips() {
+        players[0].placeBoats();
+        players[1].placeBoats();
+    }
 
     public void saveGame(){}
 
     public void loadGame(){}
+
+    public ShootResult shoot(Player shooter, Player target, int row, int col){
+        System.out.println(shooter + " vystřelil po: " + target + "Trefa: " );
+        return target.getBoard().shoot(row, col);
+    }
 
 }
