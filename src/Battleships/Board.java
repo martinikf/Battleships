@@ -8,8 +8,19 @@ public class Board {
     private final ArrayList<Ship> shipsOnBoard;
 
     public Board(){
-        board = new Tile[Game.BOARD_HEIGHT][Game.BOARD_WIDTH];
+        board = createBoard();
         shipsOnBoard = new ArrayList<>();
+    }
+
+    private Tile[][] createBoard(){
+        var b = new Tile[Game.BOARD_HEIGHT][Game.BOARD_WIDTH];
+
+        for (int i = 0; i < Game.BOARD_HEIGHT; i++){
+            for(int j = 0; j < Game.BOARD_WIDTH; j++){
+                b[i][j] = Tile.Water;
+            }
+        }
+        return b;
     }
 
     public Tile[][] getBoard() {
@@ -26,5 +37,14 @@ public class Board {
         }
 
         return false;
+    }
+
+    public void printBoard(){
+        for (int i = 0; i < Game.BOARD_HEIGHT; i++){
+            for(int j = 0; j < Game.BOARD_WIDTH; j++){
+                System.out.print(board[i][j] + " | ");
+            }
+            System.out.print(System.lineSeparator());
+        }
     }
 }
