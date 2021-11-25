@@ -46,12 +46,20 @@ public class Game {
         System.out.println("Winner is: " + winner.getName());
     }
 
+    //TODO rewrite mess!
     private Player war() {
         int turn = 0;
 
         while(winner == null){
             System.out.println("\n-------------------------------------------\n");
-            if(turn == 0){
+            System.out.println("Turn: " + players[turn].getName());
+            if(arePlayersLocal()){
+                System.out.println("Player1 board:");
+                players[0].getBoard().printBoardOpponentsPerspective();
+                System.out.println("Player2 board:");
+                players[1].getBoard().printBoardOpponentsPerspective();
+            }
+            else if(turn == 0){
                 System.out.println("Player1 board:");
                 players[0].getBoard().printBoardPlayersPerspective();
                 System.out.println("Player2 board:");
@@ -63,8 +71,6 @@ public class Game {
                 System.out.println("Player2 board:");
                 players[1].getBoard().printBoardPlayersPerspective();
             }
-            System.out.println("---------------------------------------");
-            System.out.println("Turn: " + players[turn].getName());
 
             var shootCoords = players[turn].getShootCoords();
 
@@ -84,10 +90,23 @@ public class Game {
     }
 
     private void placeShips() {
+        if(arePlayersLocal()){
+            System.out.println("Pozor! Hrači jsou lokální.");
+            System.out.println("Po umístění lodí se už pozice lodí nikdy nezobrazí");
+        }
         System.out.println("Player1 boats:");
         players[0].placeBoats();
         System.out.println("Player2 boats:");
         players[1].placeBoats();
+    }
+
+    private boolean arePlayersLocal(){
+        for(Player p : players){
+            if(!p.isLocalPlayer){
+                return false;
+            }
+        }
+        return true;
     }
 
     public ShootResult shoot(Player shooter, Player target, int row, int col){
@@ -102,8 +121,8 @@ public class Game {
         gs.saveGame();
     }
 
-    public void loadGame(String savename){
+    public void loadGame(String saveName){
         IGameSaver gs = new TXTGameSaver();
-        gs.loadGame(savename);
+        gs.loadGame(saveName);
     }
 }
