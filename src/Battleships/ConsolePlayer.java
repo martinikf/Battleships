@@ -3,7 +3,7 @@ package Battleships;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ConsolePlayer extends Player{
+public class ConsolePlayer extends HumanLocalPlayer{
 
     private final Scanner sc;
 

@@ -6,6 +6,7 @@ public abstract class Player {
 
     protected Board board;
     protected String name;
+    protected boolean isLocalPlayer;
 
     public Player(String name){
         board = new Board();
@@ -16,9 +17,11 @@ public abstract class Player {
 
     public Board getBoard(){return board;}
     public String getName(){return name;}
+    public Boolean getIsLocalPlayer(){return isLocalPlayer;}
 
     public abstract Coordinates getShootCoords();
 
+    //TODO opravit někdy crashne indexoutofbounds
     protected void placeBoatsRandomly(){
         Random rand = new Random();
         int boatsPlaced = 0;
