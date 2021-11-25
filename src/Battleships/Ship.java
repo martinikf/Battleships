@@ -54,6 +54,6 @@ public abstract class Ship {
     public boolean isDestroyed(){return destroyed; }
 
     public String destroyMessage() {
-        return this + "has been destroyed!";
+        return this + " has been destroyed!";
     }
 }

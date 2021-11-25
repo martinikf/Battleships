@@ -45,20 +45,25 @@ public class Board {
         return false;
     }
 
-    //Returns true if every boat was destroyed
     public ShootResult shoot(int row, int col) {
         if(coordsOutOfBounds(row, col)){
-            return ShootResult.Fault; //opravit
+            return ShootResult.Fault; //opravit ?
         }
 
         switch (board[row][col]){
             case Water:
                 board[row][col] = Tile.Miss;
                 return ShootResult.Miss;
-            case Ship:
+            case Ship: //destroyed obsahuje zprávu o zničené lodi
                 board[row][col] = Tile.Hit;
-                hit(row, col);
-                return checkWin();
+                String destroyed;
+                if((destroyed = hit(row, col)) != null){
+                    if(checkWin() == ShootResult.Win){
+                        return ShootResult.Win;
+                    }
+                    return ShootResult.Destroyed;
+                }
+                return ShootResult.Hit;
             case Miss:
             case Hit:
             default:
@@ -75,14 +80,15 @@ public class Board {
         return ShootResult.Win;
     }
 
-    private void hit(int row, int col) {
+    private String hit(int row, int col) {
         for(var ship : shipsOnBoard){
             if(ship.isOnCoords(row, col)){
                 if(ship.hit(row, col)){
-                    System.out.println(ship.destroyMessage());
+                    return ship.destroyMessage();
                 }
             }
         }
+        return null;
     }
 
     private boolean coordsOutOfBounds(int row, int col){
