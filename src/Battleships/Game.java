@@ -116,13 +116,8 @@ public class Game {
         return result;
     }
 
-    public void saveGame(){
+    public void saveGame(String saveName){
         IGameSaver gs = new TXTGameSaver();
-        gs.saveGame();
-    }
-
-    public void loadGame(String saveName){
-        IGameSaver gs = new TXTGameSaver();
-        gs.loadGame(saveName);
+        gs.saveGame("save1");
     }
 }

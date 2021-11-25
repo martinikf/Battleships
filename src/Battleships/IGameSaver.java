@@ -2,7 +2,7 @@ package Battleships;
 
 public interface IGameSaver {
 
-    boolean saveGame();
+    boolean saveGame(String saveName);
 
-    boolean loadGame(String savename);
+    boolean loadGame(String saveName);
 }

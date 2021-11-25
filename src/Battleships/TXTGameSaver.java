@@ -2,13 +2,17 @@ package Battleships;
 
 public class TXTGameSaver implements IGameSaver{
 
+
     @Override
-    public boolean saveGame() {
+    public boolean saveGame(String saveName) {
+
+
+
         return false;
     }
 
     @Override
-    public boolean loadGame(String savename) {
+    public boolean loadGame(String saveName) {
         return false;
     }
 }
