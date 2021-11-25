@@ -95,16 +95,31 @@ public class Board {
         return row < 0 || row >= Game.BOARD_HEIGHT || col < 0 || col >= Game.BOARD_WIDTH;
     }
 
-    //Přidat kontrolu pro lod v okolí
     private boolean canBePlaced(Ship ship) {
         for(var position : ship.getOccupies()){
-            if(coordsOutOfBounds(position.getRow(), position.getCol())){
+            if(     shipOnPosition(position, -1, -1)||
+                    shipOnPosition(position, -1, 0) ||
+                    shipOnPosition(position, -1, 1) ||
+                    shipOnPosition(position, 0, -1) ||
+                    !isWater(position, 0, 0)  ||
+                    shipOnPosition(position, 0, 1)  ||
+                    shipOnPosition(position, 1, -1) ||
+                    shipOnPosition(position, 1, 0)  ||
+                    shipOnPosition(position, 1, 1)) {
                 return false;
             }
-            if(board[position.getRow()][position.getCol()] != Tile.Water)
-                return false;
         }
         return true;
+    }
+
+    private boolean isWater(Position position, int i, int i1) {
+        return !coordsOutOfBounds(position.getRow() + i, position.getCol() + i1)
+        && board[position.getRow()+i][position.getCol()+i1] == Tile.Water;
+    }
+
+    private boolean shipOnPosition(Position pos, int i1, int i2){
+        return !coordsOutOfBounds(pos.getRow() + i1, pos.getCol() + i2)
+                && board[pos.getRow() + i1][pos.getCol() + i2] != Tile.Water;
     }
 
     public void printBoardPlayersPerspective(){
