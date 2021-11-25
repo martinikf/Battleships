@@ -7,17 +7,10 @@ public class Game {
     public static int BOARD_HEIGHT;
     public static int BOARD_WIDTH;
     public static int BOATS_COUNT; //loď i -> délka i
+    public static int PLAYER_COUNT; //TODO make game playable for more than 2 players
 
     private final Player[] players = new Player[2];
     private Player winner = null;
-
-    public Player getPlayer1() {
-        return players[0];
-    }
-
-    public Player getPlayer2() {
-        return players[1];
-    }
 
     public Game(int height, int width, int boats){
         BOARD_HEIGHT = height;
@@ -49,23 +42,29 @@ public class Game {
         printWinner(war());
     }
 
-    private void printWinner(Player war) {
-        System.out.println("Winner is: " + war);
+    private void printWinner(Player winner) {
+        System.out.println("Winner is: " + winner.getName());
     }
 
-    //TODO SCANNER
     private Player war() {
         int turn = 0;
 
         while(winner == null){
-            System.out.println("\n\n\n-------------------------------------------\n\n\n");
-            System.out.println("Player1 board:");
-            players[0].getBoard().printBoardPlayersPerspective();
-            System.out.println("Player2 board:");
-            players[1].getBoard().printBoardPlayersPerspective();
+            System.out.println("\n-------------------------------------------\n");
+            if(turn == 0){
+                System.out.println("Player1 board:");
+                players[0].getBoard().printBoardPlayersPerspective();
+                System.out.println("Player2 board:");
+                players[1].getBoard().printBoardOpponentsPerspective();
+            }
+            else{
+                System.out.println("Player1 board:");
+                players[0].getBoard().printBoardOpponentsPerspective();
+                System.out.println("Player2 board:");
+                players[1].getBoard().printBoardPlayersPerspective();
+            }
             System.out.println("---------------------------------------");
-
-            System.out.println("Turn: " + turn);
+            System.out.println("Turn: " + players[turn].getName());
 
             var shootCoords = players[turn].getShootCoords();
 
@@ -92,12 +91,19 @@ public class Game {
     }
 
     public ShootResult shoot(Player shooter, Player target, int row, int col){
+        System.out.print(shooter.getName() + " vystřelil po " + target.getName() + " výsledek: ");
         var result = target.getBoard().shoot(row, col);
-        System.out.println(shooter + " vystřelil po: " + target + "Trefa: " + result);
+        System.out.println(result);
         return result;
     }
 
-    public void saveGame(){}
+    public void saveGame(){
+        IGameSaver gs = new TXTGameSaver();
+        gs.saveGame();
+    }
 
-    public void loadGame(){}
+    public void loadGame(String savename){
+        IGameSaver gs = new TXTGameSaver();
+        gs.loadGame(savename);
+    }
 }
