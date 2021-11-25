@@ -1,10 +1,11 @@
 package Battleships;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ConsolePlayer extends Player{
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public ConsolePlayer(String name){
         super(name);
@@ -15,22 +16,28 @@ public class ConsolePlayer extends Player{
     //This method has to be rewritten for other than standard boat types
     @Override
     public void placeBoats() {
-        int boatsPlaced = 0;
+        System.out.println("Pokud chcete lodě umístit automaticky napište: 'Y'.");
 
-        while(boatsPlaced != Game.BOATS_COUNT){
-            getBoard().printBoardPlayersPerspective();
-            System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1)");
-            String input = sc.nextLine();
-            var inputSplit = input.split(":");
-            int row = Integer.parseInt(inputSplit[0]);
-            int col = Integer.parseInt(inputSplit[1]);
-            byte rotation = Byte.parseByte(inputSplit[2]);
+        if(sc.nextLine().toLowerCase(Locale.ROOT).equals("y")){
+            placeBoatsRandomly();
+        }
+        else{
+            int boatsPlaced = 0;
 
-            if(board.placeShip(new StraightShip(row, col, rotation, boatsPlaced + 1))){
-                boatsPlaced++;
-            }
-            else{
-                System.out.println("Špatně umístěná loď");
+            while(boatsPlaced < Game.BOATS_COUNT) {
+                getBoard().printBoardPlayersPerspective();
+                System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1)");
+                String input = sc.nextLine();
+                var inputSplit = input.split(":");
+                int row = Integer.parseInt(inputSplit[0]);
+                int col = Integer.parseInt(inputSplit[1]);
+                byte rotation = Byte.parseByte(inputSplit[2]);
+
+                if (board.placeShip(new StraightShip(row, col, rotation, boatsPlaced + 1))) {
+                    boatsPlaced++;
+                } else {
+                    System.out.println("Špatně umístěná loď");
+                }
             }
         }
     }

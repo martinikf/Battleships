@@ -11,7 +11,7 @@ public class StraightShip extends Ship{
     }
 
     @Override
-    protected boolean createOccupies() {
+    protected void createOccupies() {
         occupies = new Position[getLength()];
         occupies[0] = start;
 
@@ -23,6 +23,5 @@ public class StraightShip extends Ship{
                 occupies[i] = new Position(getStart().getRow() + i, getStart().getCol());
             }
         }
-        return true;
     }
 }

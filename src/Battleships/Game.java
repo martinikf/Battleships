@@ -1,10 +1,12 @@
 package Battleships;
 
+import java.util.Scanner;
+
 public class Game {
 
-    public static int BOARD_HEIGHT = 8;
-    public static int BOARD_WIDTH = 8;
-    public static int BOATS_COUNT = 1; //loď i -> délka i
+    public static int BOARD_HEIGHT;
+    public static int BOARD_WIDTH;
+    public static int BOATS_COUNT; //loď i -> délka i
 
     private final Player[] players = new Player[2];
     private Player winner = null;
@@ -22,20 +24,33 @@ public class Game {
         BOARD_WIDTH = width;
         BOATS_COUNT = boats;
 
-        players[0] = createPlayer();
-        players[1] = createPlayer();
+        players[0] = createPlayer(0);
+        players[1] = createPlayer(1);
     }
 
-    private Player createPlayer() {
+    private Player createPlayer(int index) {
         //Type
         //Name
         //...
-        return new ConsolePlayer("Honza");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Zadej jméno hráče:");
+        String name = sc.nextLine();
+        System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...} enter jméno enter");
+        return switch (sc.nextInt()) {
+            case 1 -> new ConsolePlayer(name);
+            case 2 -> new RandomComputerPlayer(name);
+            case 3 -> new HackerComputerPlayer(name, players[1-index]);
+            default -> null;
+        };
     }
 
     public void startGame(){
         placeShips();
-        war();
+        printWinner(war());
+    }
+
+    private void printWinner(Player war) {
+        System.out.println("Winner is: " + war);
     }
 
     //TODO SCANNER
@@ -43,6 +58,7 @@ public class Game {
         int turn = 0;
 
         while(winner == null){
+            System.out.println("\n\n\n-------------------------------------------\n\n\n");
             System.out.println("Player1 board:");
             players[0].getBoard().printBoardPlayersPerspective();
             System.out.println("Player2 board:");
@@ -60,14 +76,12 @@ public class Game {
                     turn = 1-turn;
                     break;
                 case Win:
-                    System.out.println("Player - " + players[turn] + " has won!");
-                    return players[turn];
+                    winner = players[turn];
                 default:
                 case Fault:
-                    return null;
             }
         }
-        return null;
+        return winner;
     }
 
     private void placeShips() {
@@ -78,8 +92,9 @@ public class Game {
     }
 
     public ShootResult shoot(Player shooter, Player target, int row, int col){
-        System.out.println(shooter + " vystřelil po: " + target + "Trefa: " );
-        return target.getBoard().shoot(row, col);
+        var result = target.getBoard().shoot(row, col);
+        System.out.println(shooter + " vystřelil po: " + target + "Trefa: " + result);
+        return result;
     }
 
     public void saveGame(){}

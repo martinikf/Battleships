@@ -47,7 +47,7 @@ public class Board {
 
     //Returns true if every boat was destroyed
     public ShootResult shoot(int row, int col) {
-        if(!coordsInBounds(row, col)){
+        if(coordsOutOfBounds(row, col)){
             return ShootResult.Fault; //opravit
         }
 
@@ -77,28 +77,22 @@ public class Board {
 
     private void hit(int row, int col) {
         for(var ship : shipsOnBoard){
-            int index = -1;
             if(ship.isOnCoords(row, col)){
                 if(ship.hit(row, col)){
-                    System.out.println("Ship destroyed!" + ship);
+                    System.out.println(ship.destroyMessage());
                 }
             }
         }
     }
 
-    private boolean coordsInBounds(int row, int col){
-        if(row < 0 || row >= Game.BOARD_HEIGHT || col < 0 || col >= Game.BOARD_WIDTH){
-            return false;
-        }
-        else{
-            return true;
-        }
+    private boolean coordsOutOfBounds(int row, int col){
+        return row < 0 || row >= Game.BOARD_HEIGHT || col < 0 || col >= Game.BOARD_WIDTH;
     }
 
     //Přidat kontrolu pro lod v okolí
     private boolean canBePlaced(Ship ship) {
         for(var position : ship.getOccupies()){
-            if(!coordsInBounds(position.getRow(), position.getCol())){
+            if(coordsOutOfBounds(position.getRow(), position.getCol())){
                 return false;
             }
             if(board[position.getRow()][position.getCol()] != Tile.Water)
@@ -126,8 +120,7 @@ public class Board {
         for (int i = 0; i < Game.BOARD_HEIGHT; i++){
             for(int j = 0; j < Game.BOARD_WIDTH; j++){
                 switch (board[i][j]){
-                    case Water -> System.out.print("-");
-                    case Ship -> System.out.print("-");
+                    case Water, Ship -> System.out.print("-");
                     case Hit -> System.out.print("X");
                     case Miss -> System.out.print("O");
                 }

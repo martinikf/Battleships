@@ -46,10 +46,14 @@ public abstract class Ship {
         return true;
     }
 
-    protected abstract boolean createOccupies();
+    protected abstract void createOccupies();
 
     public Position[] getOccupies() { return occupies; }
     public Position getStart(){ return start; }
     public byte getRotation(){return rotation; }
     public boolean isDestroyed(){return destroyed; }
+
+    public String destroyMessage() {
+        return this + "has been destroyed!";
+    }
 }
