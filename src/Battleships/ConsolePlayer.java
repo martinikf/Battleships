@@ -13,30 +13,35 @@ public class ConsolePlayer extends HumanLocalPlayer{
     }
 
     //TODO 1) ověřit správnost inputu 2) Zobecnit pro jiné lodě
-    //This method has to be rewritten for other than standard boat types
+    //This method has to be rewritten for other than standard (straight) boat types
     @Override
     public void placeBoats() {
         System.out.println("Pokud chcete lodě umístit automaticky napište: 'Y'.");
 
-        if(sc.nextLine().toLowerCase(Locale.ROOT).equals("y")){
+        if (sc.nextLine().toLowerCase(Locale.ROOT).equals("y")) {
             placeBoatsRandomly();
-        }
-        else{
+        } else {
             int boatsPlaced = 0;
 
-            while(boatsPlaced < Game.BOATS_COUNT) {
+            while (boatsPlaced < Game.BOATS_COUNT) {
                 getBoard().printBoardPlayersPerspective();
                 System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1)");
-                String input = sc.nextLine();
-                var inputSplit = input.split(":");
-                int row = Integer.parseInt(inputSplit[0]);
-                int col = Integer.parseInt(inputSplit[1]);
-                byte rotation = Byte.parseByte(inputSplit[2]);
 
-                if (board.placeShip(new StraightShip(row, col, rotation, boatsPlaced + 1))) {
-                    boatsPlaced++;
-                } else {
-                    System.out.println("Špatně umístěná loď");
+                try {
+                    String input = sc.nextLine();
+
+                    var inputSplit = input.split(":");
+                    int row = Integer.parseInt(inputSplit[0]);
+                    int col = Integer.parseInt(inputSplit[1]);
+                    byte rotation = Byte.parseByte(inputSplit[2]);
+
+                    if (board.placeShip(new StraightShip(row, col, rotation, boatsPlaced + 1))) {
+                        boatsPlaced++;
+                    } else {
+                        System.out.println("Špatně umístěná loď");
+                    }
+                } catch (Exception ex) {
+                    continue;
                 }
             }
         }
@@ -45,6 +50,12 @@ public class ConsolePlayer extends HumanLocalPlayer{
     @Override
     public Coordinates getShootCoords() {
         System.out.println("Zadej řádek enter sloupec enter.");
-        return new Coordinates(sc.nextInt(), sc.nextInt());
+        try {
+            return new Coordinates(sc.nextInt(), sc.nextInt());
+        }
+        catch(Exception ex){
+            sc.nextLine();
+            return getShootCoords();
+        }
     }
 }

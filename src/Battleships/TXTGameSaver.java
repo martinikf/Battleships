@@ -4,7 +4,7 @@ public class TXTGameSaver implements IGameSaver{
 
 
     @Override
-    public boolean saveGame(String saveName) {
+    public boolean saveGame(String saveName, Game game) {
 
 
 

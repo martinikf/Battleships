@@ -58,6 +58,7 @@ public class Board {
                 board[row][col] = Tile.Hit;
                 String destroyed;
                 if((destroyed = hit(row, col)) != null){
+                    System.out.println(destroyed);
                     if(checkWin() == ShootResult.Win){
                         return ShootResult.Win;
                     }
