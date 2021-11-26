@@ -10,6 +10,13 @@ public class Game {
 
     private final Player[] players = new Player[2];
     private Player winner = null;
+    private int turn = 0;
+
+    public Player[] getPlayers(){
+        return players;
+    }
+    public Player getWinner(){return winner;}
+    public int getTurn(){return turn;}
 
     public Game(int height, int width, int boats){
         BOARD_HEIGHT = height;
@@ -50,8 +57,6 @@ public class Game {
     }
 
     private Player war() {
-        int turn = 0;
-
         while(winner == null){
 
             printGameBoards(turn);
@@ -124,10 +129,5 @@ public class Game {
         System.out.println(result);
 
         return result;
-    }
-
-    public void saveGame(String saveName){
-        IGameSaver gs = new TXTGameSaver();
-        gs.saveGame("save1", this);
     }
 }

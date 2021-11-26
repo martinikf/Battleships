@@ -1,6 +1,6 @@
 package Battleships;
 
-public class Position {
+public class Position{
 
     private int row;
     private int col;
