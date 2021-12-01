@@ -5,5 +5,5 @@ public enum ShootResult {
     Hit,
     Destroyed,
     Win,
-    Fault,
+    Fault
 }

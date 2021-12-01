@@ -10,7 +10,7 @@ public class HackerComputerPlayer extends ComputerPlayer{
     }
 
     @Override
-    public void placeBoats() {
+    public void placeShips() {
       placeBoatsRandomly();
     }
 
@@ -18,7 +18,7 @@ public class HackerComputerPlayer extends ComputerPlayer{
     public Coordinates getShootCoords() {
         for(var ship : opponent.getBoard().getShipsOnBoard()){
             if(!ship.destroyed){
-                for(var pos : ship.getOccupies()){
+                for(var pos : ship.getParts()){
                     if(!pos.isHit()){
                         return new Coordinates(pos.getRow(), pos.getCol());
                     }

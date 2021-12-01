@@ -58,11 +58,9 @@ public class Game {
 
     private Player war() {
         while(winner == null){
-
             printGameBoards(turn);
 
             var shootCoords = players[turn].getShootCoords();
-
             switch(shoot(players[turn], players[1-turn], shootCoords.row(), shootCoords.col())){
                 case Miss:
                     turn = 1-turn;
@@ -108,9 +106,9 @@ public class Game {
             System.out.println("Po umístění lodí se už pozice lodí nikdy nezobrazí");
         }
         System.out.println("Player1 boats:");
-        players[0].placeBoats();
+        players[0].placeShips();
         System.out.println("Player2 boats:");
-        players[1].placeBoats();
+        players[1].placeShips();
     }
 
     private boolean arePlayersLocal(){

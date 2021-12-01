@@ -36,7 +36,7 @@ public class Board {
             return false;
         }
         else if(canBePlaced(ship)){
-            for(var position : ship.getOccupies()){
+            for(var position : ship.getParts()){
                 board[position.getRow()][position.getCol()] = Tile.Ship;
             }
             shipsOnBoard.add(ship);
@@ -47,14 +47,14 @@ public class Board {
 
     public ShootResult shoot(int row, int col) {
         if(coordsOutOfBounds(row, col)){
-            return ShootResult.Fault; //opravit ?
+            return ShootResult.Fault;
         }
 
         switch (board[row][col]){
             case Water:
                 board[row][col] = Tile.Miss;
                 return ShootResult.Miss;
-            case Ship: //destroyed obsahuje zprávu o zničené lodi
+            case Ship:
                 board[row][col] = Tile.Hit;
                 String destroyed;
                 if((destroyed = hit(row, col)) != null){
@@ -97,7 +97,7 @@ public class Board {
     }
 
     private boolean canBePlaced(Ship ship) {
-        for(var position : ship.getOccupies()){
+        for(var position : ship.getParts()){
             if(     shipOnPosition(position, -1, -1)||
                     shipOnPosition(position, -1, 0) ||
                     shipOnPosition(position, -1, 1) ||
@@ -113,12 +113,12 @@ public class Board {
         return true;
     }
 
-    private boolean isWater(Position position, int i, int i1) {
+    private boolean isWater(ShipPart position, int i, int i1) {
         return !coordsOutOfBounds(position.getRow() + i, position.getCol() + i1)
         && board[position.getRow()+i][position.getCol()+i1] == Tile.Water;
     }
 
-    private boolean shipOnPosition(Position pos, int i1, int i2){
+    private boolean shipOnPosition(ShipPart pos, int i1, int i2){
         return !coordsOutOfBounds(pos.getRow() + i1, pos.getCol() + i2)
                 && board[pos.getRow() + i1][pos.getCol() + i2] != Tile.Water;
     }

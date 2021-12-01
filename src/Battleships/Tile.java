@@ -4,6 +4,5 @@ public enum Tile {
     Water,
     Ship,
     Hit,
-    Miss,
-
+    Miss
 }

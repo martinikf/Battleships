@@ -15,7 +15,7 @@ public class ConsolePlayer extends HumanLocalPlayer{
     //TODO 1) ověřit správnost inputu 2) Zobecnit pro jiné lodě
     //This method has to be rewritten for other than standard (straight) boat types
     @Override
-    public void placeBoats() {
+    public void placeShips() {
         System.out.println("Pokud chcete lodě umístit automaticky napište: 'Y'.");
 
         if (sc.nextLine().toLowerCase(Locale.ROOT).equals("y")) {

@@ -2,22 +2,22 @@ package Battleships;
 
 public abstract class Ship {
 
-    protected Position[] occupies;      //Souřadnice na kterých je loď umístěná
+    protected ShipPart[] parts;      //Souřadnice na kterých je loď umístěná
     protected byte rotation;
-    protected Position start;
+    protected ShipPart start;
     protected int size;
     protected boolean destroyed = false;
 
     public Ship(int row, int col, byte rotation, int size){
-        start = new Position(row, col);
+        start = new ShipPart(row, col);
         this.rotation = rotation;
         this.size = size;
 
-        createOccupies();
+        createParts();
     }
 
     public boolean isOnCoords(int row, int col){
-        for(var position : getOccupies()){
+        for(var position : getParts()){
             if(position.getRow() == row && position.getCol() == col){
                 return true;
             }
@@ -27,7 +27,7 @@ public abstract class Ship {
 
     private int indexOfCoords(int row, int col){
         for(int i = 0; i < size; i++){
-            if(occupies[i].getRow() == row && occupies[i].getCol() == col){
+            if(parts[i].getRow() == row && parts[i].getCol() == col){
                 return i;
             }
         }
@@ -36,8 +36,8 @@ public abstract class Ship {
 
     //Returns true if the hit destroyed this boat
     public boolean hit(int row, int col){
-        getOccupies()[indexOfCoords(row, col)].setHit(true);
-        for(var position : getOccupies()){
+        getParts()[indexOfCoords(row, col)].setHit(true);
+        for(var position : getParts()){
             if(!position.isHit()){
                 return false;
             }
@@ -46,10 +46,10 @@ public abstract class Ship {
         return true;
     }
 
-    protected abstract void createOccupies();
+    protected abstract void createParts();
 
-    public Position[] getOccupies() { return occupies; }
-    public Position getStart(){ return start; }
+    public ShipPart[] getParts() { return parts; }
+    public ShipPart getStart(){ return start; }
     public byte getRotation(){return rotation; }
     public boolean isDestroyed(){return destroyed; }
 

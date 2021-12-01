@@ -11,7 +11,7 @@ public class RandomComputerPlayer extends ComputerPlayer{
     }
 
     @Override
-    public void placeBoats() {
+    public void placeShips() {
         placeBoatsRandomly();
     }
 

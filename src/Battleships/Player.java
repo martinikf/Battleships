@@ -13,7 +13,7 @@ public abstract class Player {
         this.name = name;
     }
 
-    public abstract void placeBoats();
+    public abstract void placeShips();
 
     public Board getBoard(){return board;}
     public String getName(){return name;}

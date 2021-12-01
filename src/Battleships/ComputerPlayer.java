@@ -6,5 +6,4 @@ public abstract class ComputerPlayer extends Player{
         super(name);
         isLocalPlayer = false;
     }
-
 }

@@ -11,16 +11,16 @@ public class StraightShip extends Ship{
     }
 
     @Override
-    protected void createOccupies() {
-        occupies = new Position[getLength()];
-        occupies[0] = start;
+    protected void createParts() {
+        parts = new ShipPart[getLength()];
+        parts[0] = start;
 
         for(int i = 1; i < getLength(); i++){
             if(rotation == 0){
-                occupies[i] = new Position(getStart().getRow(), getStart().getCol() + i);
+                parts[i] = new ShipPart(getStart().getRow(), getStart().getCol() + i);
             }
             else{
-                occupies[i] = new Position(getStart().getRow() + i, getStart().getCol());
+                parts[i] = new ShipPart(getStart().getRow() + i, getStart().getCol());
             }
         }
     }
