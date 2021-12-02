@@ -61,6 +61,6 @@ public abstract class Ship {
     }
 
     public String destroyMessage() {
-        return this + " has been destroyed!";
+        return this + " byla zničena!";
     }
 }

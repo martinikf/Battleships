@@ -36,9 +36,8 @@ public class Game {
             };
         } catch (Exception ex) {
             System.out.println("Chyba při zadávání hráče. Znovu..");
-            createPlayer(index);
+            return createPlayer(index);
         }
-        return null;
     }
 
     public void startGame() {
@@ -47,7 +46,7 @@ public class Game {
     }
 
     private void printWinner(Player winner) {
-        System.out.println("Winner is: " + winner.getName());
+        System.out.println("Vítěz je: " + winner.getName());
     }
 
     private Player war() {
@@ -99,9 +98,9 @@ public class Game {
             System.out.println("Pozor! Hrači jsou lokální.");
             System.out.println("Po umístění lodí se už pozice lodí nikdy nezobrazí");
         }
-        System.out.println("Player1 boats:");
+        System.out.println("Lodě hráče: " + players[0].getName());
         players[0].placeShips();
-        System.out.println("Player2 boats:");
+        System.out.println("Lodě hráče: " + players[1].getName());
         players[1].placeShips();
     }
 

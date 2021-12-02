@@ -41,6 +41,7 @@ public class ConsolePlayer extends HumanLocalPlayer {
                         System.out.println("Špatně umístěná loď");
                     }
                 } catch (Exception ex) {
+                    System.out.println("Chyba při vstupu dat.");
                     continue;
                 }
             }
@@ -56,6 +57,7 @@ public class ConsolePlayer extends HumanLocalPlayer {
             var splitInput = input.split(":");
             return new Coordinates(Integer.parseInt(splitInput[0]), Integer.parseInt(splitInput[1]));
         } catch (Exception ex) {
+            System.out.println("Chybný vstup souřadnic. Zadej ve tvaru row:col row = číslo řádku, col = číslo sloupce");
             sc.nextLine();
             return getShootCoords();
         }
