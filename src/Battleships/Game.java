@@ -12,13 +12,7 @@ public class Game {
     private Player winner = null;
     private int turn = 0;
 
-    public Player[] getPlayers(){
-        return players;
-    }
-    public Player getWinner(){return winner;}
-    public int getTurn(){return turn;}
-
-    public Game(int height, int width, int boats){
+    public Game(int height, int width, int boats) {
         gameHeight = height;
         gameWidth = width;
         gameShipsCount = boats;
@@ -30,9 +24,9 @@ public class Game {
     private Player createPlayer(int index) {
         Scanner sc = new Scanner(System.in);
         try {
-        System.out.println("Zadej jméno hráče:");
-        String name = sc.nextLine();
-        System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...}:");
+            System.out.println("Zadej jméno hráče:");
+            String name = sc.nextLine();
+            System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...}:");
 
             return switch (sc.nextInt()) {
                 case 1 -> new ConsolePlayer(name, new Board(gameHeight, gameWidth, gameShipsCount));
@@ -40,15 +34,14 @@ public class Game {
                 case 3 -> new HackerComputerPlayer(name, new Board(gameHeight, gameWidth, gameShipsCount), players[1 - index]);
                 default -> throw new Exception();
             };
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Chyba při zadávání hráče. Znovu..");
             createPlayer(index);
         }
         return null;
     }
 
-    public void startGame(){
+    public void startGame() {
         placeShips();
         printWinner(war());
     }
@@ -58,13 +51,13 @@ public class Game {
     }
 
     private Player war() {
-        while(winner == null){
-            printGameBoards(turn);
+        while (winner == null) {
+            printGameBoards();
 
             var shootCoords = players[turn].getShootCoords();
-            switch(shoot(players[turn], players[1-turn], shootCoords.row(), shootCoords.col())){
+            switch (shoot(players[turn], players[1 - turn], shootCoords.row(), shootCoords.col())) {
                 case Miss:
-                    turn = 1-turn;
+                    turn = 1 - turn;
                     break;
                 case Win:
                     winner = players[turn];
@@ -76,34 +69,33 @@ public class Game {
         return winner;
     }
 
-    private void printGameBoards(int turn) {
-        if(arePlayersLocal()){
+    private void printGameBoards() {
+        if (arePlayersLocal()) {
             printBothBoards(false, false);
         }
-        else if(players[0].getIsLocalPlayer()){
+        else if (players[0].getIsLocalPlayer()) {
             printBothBoards(true, false);
         }
-        else if(players[1].getIsLocalPlayer()){
-            printBothBoards(false, true);
-        }
-        else{
-            printBothBoards(true, true);
+        else {
+            printBothBoards(!players[1].getIsLocalPlayer(), true);
         }
     }
 
-    private void printBothBoards(boolean player1, boolean player2){
+    private void printBothBoards(boolean player1, boolean player2) {
         System.out.println(players[0].getName());
         players[0].getBoard().printBoard(player1);
-        for(var i = 0; i<gameWidth*4; i++) {
+
+        for (var i = 0; i < gameWidth * 4; i++) {
             System.out.print("-");
         }
         System.out.println();
+
         System.out.println(players[1].getName());
         players[1].getBoard().printBoard(player2);
     }
 
     private void placeShips() {
-        if(arePlayersLocal()){
+        if (arePlayersLocal()) {
             System.out.println("Pozor! Hrači jsou lokální.");
             System.out.println("Po umístění lodí se už pozice lodí nikdy nezobrazí");
         }
@@ -113,16 +105,16 @@ public class Game {
         players[1].placeShips();
     }
 
-    private boolean arePlayersLocal(){
-        for(Player p : players){
-            if(!p.isLocalPlayer){
+    private boolean arePlayersLocal() {
+        for (Player p : players) {
+            if (!p.isLocalPlayer) {
                 return false;
             }
         }
         return true;
     }
 
-    public ShootResult shoot(Player shooter, Player target, int row, int col){
+    public ShootResult shoot(Player shooter, Player target, int row, int col) {
         System.out.print(shooter.getName() + " vystřelil po " + target.getName() + " výsledek: ");
 
         var result = target.getBoard().shoot(row, col);

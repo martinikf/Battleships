@@ -2,17 +2,17 @@ package Battleships;
 
 import java.util.Random;
 
-public class RandomComputerPlayer extends ComputerPlayer{
+public class RandomComputerPlayer extends ComputerPlayer {
 
-    Random rand = new Random();
+    private final Random rand = new Random();
 
-    public RandomComputerPlayer(String name, Board board){
+    public RandomComputerPlayer(String name, Board board) {
         super(name, board);
     }
 
     @Override
     public void placeShips() {
-        placeBoatsRandomly();
+        placeShipsRandomly();
     }
 
     @Override

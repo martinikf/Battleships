@@ -5,7 +5,7 @@ public class ShipPart {
     private final Coordinates position;
     private boolean hit = false;
 
-    public ShipPart(int row, int col){
+    public ShipPart(int row, int col) {
         position = new Coordinates(row, col);
     }
 

@@ -3,11 +3,11 @@ package Battleships;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ConsolePlayer extends HumanLocalPlayer{
+public class ConsolePlayer extends HumanLocalPlayer {
 
     private final Scanner sc;
 
-    public ConsolePlayer(String name, Board board){
+    public ConsolePlayer(String name, Board board) {
         super(name, board);
         sc = new Scanner(System.in);
     }
@@ -17,7 +17,7 @@ public class ConsolePlayer extends HumanLocalPlayer{
         System.out.println("Pokud chcete lodě umístit automaticky napište: 'Y'.");
 
         if (sc.nextLine().toLowerCase(Locale.ROOT).equals("y")) {
-            placeBoatsRandomly();
+            placeShipsRandomly();
         }
         else {
             int boatsPlaced = 0;
@@ -36,7 +36,8 @@ public class ConsolePlayer extends HumanLocalPlayer{
 
                     if (board.placeShip(new StraightShip(row, col, rotation, boatsPlaced + 1))) {
                         boatsPlaced++;
-                    } else {
+                    }
+                    else {
                         System.out.println("Špatně umístěná loď");
                     }
                 } catch (Exception ex) {
@@ -54,8 +55,7 @@ public class ConsolePlayer extends HumanLocalPlayer{
             var input = sc.nextLine();
             var splitInput = input.split(":");
             return new Coordinates(Integer.parseInt(splitInput[0]), Integer.parseInt(splitInput[1]));
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             sc.nextLine();
             return getShootCoords();
         }

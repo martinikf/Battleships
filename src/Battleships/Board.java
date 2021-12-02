@@ -10,7 +10,7 @@ public class Board {
     private final int height;
     private final int width;
 
-    public Board(int height, int width, int ships){
+    public Board(int height, int width, int ships) {
         this.shipsCount = ships;
         this.height = height;
         this.width = width;
@@ -30,31 +30,27 @@ public class Board {
         return shipsCount;
     }
 
-    public Tile[][] getBoard() {
-        return board;
-    }
-
     public ArrayList<Ship> getShipsOnBoard() {
         return shipsOnBoard;
     }
 
-    private Tile[][] createBoard(){
-        var b = new Tile[height][width];
+    private Tile[][] createBoard() {
+        var b = new Tile[getHeight()][getWidth()];
 
-        for (int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
+        for (var i = 0; i < getHeight(); i++) {
+            for (var j = 0; j < getWidth(); j++) {
                 b[i][j] = Tile.Water;
             }
         }
         return b;
     }
 
-    public boolean placeShip(Ship ship){
-        if(ship == null){
+    public boolean placeShip(Ship ship) {
+        if (ship == null) {
             return false;
         }
-        else if(canBePlaced(ship)){
-            for(var position : ship.getShipParts()){
+        else if (canBePlaced(ship)) {
+            for (var position : ship.getShipParts()) {
                 board[position.getRow()][position.getCol()] = Tile.Ship;
             }
             shipsOnBoard.add(ship);
@@ -64,20 +60,20 @@ public class Board {
     }
 
     public ShootResult shoot(int row, int col) {
-        if(coordsOutOfBounds(row, col)){
+        if (coordsOutOfBounds(row, col)) {
             return ShootResult.Fault;
         }
 
-        switch (board[row][col]){
+        switch (board[row][col]) {
             case Water:
                 board[row][col] = Tile.Miss;
                 return ShootResult.Miss;
             case Ship:
                 board[row][col] = Tile.Hit;
                 String destroyed;
-                if((destroyed = hit(row, col)) != null){
+                if ((destroyed = hit(row, col)) != null) {
                     System.out.println(destroyed);
-                    if(checkWin() == ShootResult.Win){
+                    if (checkWin() == ShootResult.Win) {
                         return ShootResult.Win;
                     }
                     return ShootResult.Destroyed;
@@ -91,8 +87,8 @@ public class Board {
     }
 
     private ShootResult checkWin() {
-        for(var ship : shipsOnBoard){
-            if(!ship.isDestroyed()){
+        for (var ship : shipsOnBoard) {
+            if (!ship.isDestroyed()) {
                 return ShootResult.Hit;
             }
         }
@@ -100,9 +96,9 @@ public class Board {
     }
 
     private String hit(int row, int col) {
-        for(var ship : shipsOnBoard){
-            if(ship.isOnCoords(row, col)){
-                if(ship.hit(row, col)){
+        for (var ship : shipsOnBoard) {
+            if (ship.isOnCoords(row, col)) {
+                if (ship.hit(row, col)) {
                     return ship.destroyMessage();
                 }
             }
@@ -110,20 +106,20 @@ public class Board {
         return null;
     }
 
-    private boolean coordsOutOfBounds(int row, int col){
+    private boolean coordsOutOfBounds(int row, int col) {
         return row < 0 || row >= getHeight() || col < 0 || col >= getWidth();
     }
 
     private boolean canBePlaced(Ship ship) {
-        for(var position : ship.getShipParts()){
-            if(     shipOnPosition(position, -1, -1)||
+        for (var position : ship.getShipParts()) {
+            if (shipOnPosition(position, -1, -1) ||
                     shipOnPosition(position, -1, 0) ||
                     shipOnPosition(position, -1, 1) ||
                     shipOnPosition(position, 0, -1) ||
-                    !isWater(position, 0, 0)  ||
-                    shipOnPosition(position, 0, 1)  ||
+                    !isWater(position, 0, 0) ||
+                    shipOnPosition(position, 0, 1) ||
                     shipOnPosition(position, 1, -1) ||
-                    shipOnPosition(position, 1, 0)  ||
+                    shipOnPosition(position, 1, 0) ||
                     shipOnPosition(position, 1, 1)) {
                 return false;
             }
@@ -131,41 +127,38 @@ public class Board {
         return true;
     }
 
-    private boolean isWater(ShipPart position, int i, int i1) {
-        return !coordsOutOfBounds(position.getRow() + i, position.getCol() + i1)
-        && board[position.getRow()+i][position.getCol()+i1] == Tile.Water;
+    private boolean isWater(ShipPart position, int dRow, int dCol) {
+        return !coordsOutOfBounds(position.getRow() + dRow, position.getCol() + dCol)
+                && board[position.getRow() + dRow][position.getCol() + dCol] == Tile.Water;
     }
 
-    private boolean shipOnPosition(ShipPart pos, int i1, int i2){
+    private boolean shipOnPosition(ShipPart pos, int i1, int i2) {
         return !coordsOutOfBounds(pos.getRow() + i1, pos.getCol() + i2)
                 && board[pos.getRow() + i1][pos.getCol() + i2] != Tile.Water;
     }
 
-    public void printBoard(boolean showShips){
-        for(var i = 0; i < width; i++){
-            if(i < 10) {
+    public void printBoard(boolean showShips) {
+        for (var i = 0; i < width; i++) {
+            if (i < 10) {
                 System.out.print(i + "   ");
-            }
-            else if(i < 100){
+            } else if (i < 100) {
                 System.out.print(i + "  ");
-            }
-            else{
+            } else {
                 System.out.print(i + " ");
             }
         }
         System.out.println();
 
-        for (int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                switch (board[i][j]){
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                switch (board[i][j]) {
                     case Water:
                         System.out.print("-");
                         break;
                     case Ship:
-                        if(showShips){
+                        if (showShips) {
                             System.out.print("S");
-                        }
-                        else{
+                        } else {
                             System.out.print("-");
                         }
                         break;
@@ -176,11 +169,11 @@ public class Board {
                         System.out.print("O");
                         break;
                 }
-                if(j != width -1){
+                if (j != width - 1) {
                     System.out.print(" | ");
                 }
             }
-            System.out.print("  " +i + " ");
+            System.out.print("  " + i + " ");
             System.out.print(System.lineSeparator());
         }
     }
