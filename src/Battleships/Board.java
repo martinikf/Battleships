@@ -6,17 +6,23 @@ public class Board {
 
     private final Tile[][] board;
     private final ArrayList<Ship> shipsOnBoard;
+    private final int shipsCount;
+    private final int height;
+    private final int width;
 
-    public Board(){
+    public Board(int height, int width, int ships){
+        this.shipsCount = ships;
+        this.height = height;
+        this.width = width;
         board = createBoard();
         shipsOnBoard = new ArrayList<>();
     }
 
     private Tile[][] createBoard(){
-        var b = new Tile[Game.BOARD_HEIGHT][Game.BOARD_WIDTH];
+        var b = new Tile[height][width];
 
-        for (int i = 0; i < Game.BOARD_HEIGHT; i++){
-            for(int j = 0; j < Game.BOARD_WIDTH; j++){
+        for (int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
                 b[i][j] = Tile.Water;
             }
         }
@@ -93,7 +99,7 @@ public class Board {
     }
 
     private boolean coordsOutOfBounds(int row, int col){
-        return row < 0 || row >= Game.BOARD_HEIGHT || col < 0 || col >= Game.BOARD_WIDTH;
+        return row < 0 || row >= getHeight() || col < 0 || col >= getWidth();
     }
 
     private boolean canBePlaced(Ship ship) {
@@ -124,8 +130,8 @@ public class Board {
     }
 
     public void printBoardPlayersPerspective(){
-        for (int i = 0; i < Game.BOARD_HEIGHT; i++){
-            for(int j = 0; j < Game.BOARD_WIDTH; j++){
+        for (int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
                 switch (board[i][j]){
                     case Water -> System.out.print("-");
                     case Ship -> System.out.print("S");
@@ -139,8 +145,8 @@ public class Board {
     }
 
     public void printBoardOpponentsPerspective(){
-        for (int i = 0; i < Game.BOARD_HEIGHT; i++){
-            for(int j = 0; j < Game.BOARD_WIDTH; j++){
+        for (int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
                 switch (board[i][j]){
                     case Water, Ship -> System.out.print("-");
                     case Hit -> System.out.print("X");
@@ -150,5 +156,17 @@ public class Board {
             }
             System.out.print(System.lineSeparator());
         }
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getShipsCount() {
+        return shipsCount;
     }
 }

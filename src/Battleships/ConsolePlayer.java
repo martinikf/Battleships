@@ -7,8 +7,8 @@ public class ConsolePlayer extends HumanLocalPlayer{
 
     private final Scanner sc;
 
-    public ConsolePlayer(String name){
-        super(name);
+    public ConsolePlayer(String name, Board board){
+        super(name, board);
         sc = new Scanner(System.in);
     }
 
@@ -23,7 +23,7 @@ public class ConsolePlayer extends HumanLocalPlayer{
         } else {
             int boatsPlaced = 0;
 
-            while (boatsPlaced < Game.BOATS_COUNT) {
+            while (boatsPlaced < getBoard().getShipsCount()) {
                 getBoard().printBoardPlayersPerspective();
                 System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1)");
 

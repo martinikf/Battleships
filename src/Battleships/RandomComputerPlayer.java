@@ -6,8 +6,8 @@ public class RandomComputerPlayer extends ComputerPlayer{
 
     Random rand = new Random();
 
-    public RandomComputerPlayer(String name){
-        super(name);
+    public RandomComputerPlayer(String name, Board board){
+        super(name, board);
     }
 
     @Override
@@ -17,6 +17,6 @@ public class RandomComputerPlayer extends ComputerPlayer{
 
     @Override
     public Coordinates getShootCoords() {
-        return new Coordinates(rand.nextInt(Game.BOARD_HEIGHT), rand.nextInt(Game.BOARD_WIDTH));
+        return new Coordinates(rand.nextInt(getBoard().getHeight()), rand.nextInt(getBoard().getWidth()));
     }
 }

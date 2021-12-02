@@ -8,8 +8,8 @@ public abstract class Player {
     protected String name;
     protected boolean isLocalPlayer;
 
-    public Player(String name){
-        board = new Board();
+    public Player(String name, Board board){
+        this.board = board;
         this.name = name;
     }
 
@@ -26,9 +26,9 @@ public abstract class Player {
         Random rand = new Random();
         int boatsPlaced = 0;
 
-        while (boatsPlaced < Game.BOATS_COUNT) {
-            int row = rand.nextInt(Game.BOARD_HEIGHT);
-            int col = rand.nextInt(Game.BOARD_WIDTH);
+        while (boatsPlaced < getBoard().getShipsCount()) {
+            int row = rand.nextInt(getBoard().getHeight());
+            int col = rand.nextInt(getBoard().getWidth());
             byte rotation = (byte) rand.nextInt(2);
 
             if (getBoard().placeShip(new StraightShip(row, col, rotation, boatsPlaced + 1))) {

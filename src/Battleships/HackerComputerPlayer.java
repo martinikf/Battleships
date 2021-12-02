@@ -4,8 +4,8 @@ public class HackerComputerPlayer extends ComputerPlayer{
 
     private final Player opponent;
 
-    public HackerComputerPlayer(String name, Player opponent){
-        super(name);
+    public HackerComputerPlayer(String name, Board board, Player opponent){
+        super(name, board);
         this.opponent = opponent;
     }
 

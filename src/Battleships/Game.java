@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Game {
 
-    public static int BOARD_HEIGHT;
-    public static int BOARD_WIDTH;
-    public static int BOATS_COUNT;
+    private int gameHeight;
+    private int gameWidth;
+    private int gameShipsCount;
 
     private final Player[] players = new Player[2];
     private Player winner = null;
@@ -19,9 +19,9 @@ public class Game {
     public int getTurn(){return turn;}
 
     public Game(int height, int width, int boats){
-        BOARD_HEIGHT = height;
-        BOARD_WIDTH = width;
-        BOATS_COUNT = boats;
+        gameHeight = height;
+        gameWidth = width;
+        gameShipsCount = boats;
 
         players[0] = createPlayer(0);
         players[1] = createPlayer(1);
@@ -34,9 +34,9 @@ public class Game {
         System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...} enter jméno enter");
         try {
             return switch (sc.nextInt()) {
-                case 1 -> new ConsolePlayer(name);
-                case 2 -> new RandomComputerPlayer(name);
-                case 3 -> new HackerComputerPlayer(name, players[1 - index]);
+                case 1 -> new ConsolePlayer(name, new Board(gameHeight, gameWidth, gameShipsCount));
+                case 2 -> new RandomComputerPlayer(name, new Board(gameHeight, gameWidth, gameShipsCount));
+                case 3 -> new HackerComputerPlayer(name, new Board(gameHeight, gameWidth, gameShipsCount), players[1 - index]);
                 default -> null;
             };
         }
