@@ -18,7 +18,7 @@ public class HackerComputerPlayer extends ComputerPlayer{
     public Coordinates getShootCoords() {
         for(var ship : opponent.getBoard().getShipsOnBoard()){
             if(!ship.destroyed){
-                for(var pos : ship.getParts()){
+                for(var pos : ship.getShipParts()){
                     if(!pos.isHit()){
                         return new Coordinates(pos.getRow(), pos.getCol());
                     }

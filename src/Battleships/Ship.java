@@ -2,7 +2,7 @@ package Battleships;
 
 public abstract class Ship {
 
-    protected ShipPart[] parts;      //Souřadnice na kterých je loď umístěná
+    protected ShipPart[] shipParts;
     protected byte rotation;
     protected ShipPart start;
     protected int size;
@@ -17,7 +17,7 @@ public abstract class Ship {
     }
 
     public boolean isOnCoords(int row, int col){
-        for(var position : getParts()){
+        for(var position : getShipParts()){
             if(position.getRow() == row && position.getCol() == col){
                 return true;
             }
@@ -27,17 +27,17 @@ public abstract class Ship {
 
     private int indexOfCoords(int row, int col){
         for(int i = 0; i < size; i++){
-            if(parts[i].getRow() == row && parts[i].getCol() == col){
+            if(shipParts[i].getRow() == row && shipParts[i].getCol() == col){
                 return i;
             }
         }
         return -1;
     }
 
-    //Returns true if the hit destroyed this boat
+    //Returns true if the hit destroyed this ship
     public boolean hit(int row, int col){
-        getParts()[indexOfCoords(row, col)].setHit(true);
-        for(var position : getParts()){
+        getShipParts()[indexOfCoords(row, col)].setHit(true);
+        for(var position : getShipParts()){
             if(!position.isHit()){
                 return false;
             }
@@ -48,7 +48,7 @@ public abstract class Ship {
 
     protected abstract void createParts();
 
-    public ShipPart[] getParts() { return parts; }
+    public ShipPart[] getShipParts() { return shipParts; }
     public ShipPart getStart(){ return start; }
     public byte getRotation(){return rotation; }
     public boolean isDestroyed(){return destroyed; }

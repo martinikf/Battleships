@@ -18,6 +18,26 @@ public class Board {
         shipsOnBoard = new ArrayList<>();
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getShipsCount() {
+        return shipsCount;
+    }
+
+    public Tile[][] getBoard() {
+        return board;
+    }
+
+    public ArrayList<Ship> getShipsOnBoard() {
+        return shipsOnBoard;
+    }
+
     private Tile[][] createBoard(){
         var b = new Tile[height][width];
 
@@ -29,20 +49,12 @@ public class Board {
         return b;
     }
 
-    public Tile[][] getBoard() {
-        return board;
-    }
-
-    public ArrayList<Ship> getShipsOnBoard() {
-        return shipsOnBoard;
-    }
-
     public boolean placeShip(Ship ship){
         if(ship == null){
             return false;
         }
         else if(canBePlaced(ship)){
-            for(var position : ship.getParts()){
+            for(var position : ship.getShipParts()){
                 board[position.getRow()][position.getCol()] = Tile.Ship;
             }
             shipsOnBoard.add(ship);
@@ -103,7 +115,7 @@ public class Board {
     }
 
     private boolean canBePlaced(Ship ship) {
-        for(var position : ship.getParts()){
+        for(var position : ship.getShipParts()){
             if(     shipOnPosition(position, -1, -1)||
                     shipOnPosition(position, -1, 0) ||
                     shipOnPosition(position, -1, 1) ||
@@ -129,44 +141,47 @@ public class Board {
                 && board[pos.getRow() + i1][pos.getCol() + i2] != Tile.Water;
     }
 
-    public void printBoardPlayersPerspective(){
+    public void printBoard(boolean showShips){
+        for(var i = 0; i < width; i++){
+            if(i < 10) {
+                System.out.print(i + "   ");
+            }
+            else if(i < 100){
+                System.out.print(i + "  ");
+            }
+            else{
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println();
+
         for (int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
                 switch (board[i][j]){
-                    case Water -> System.out.print("-");
-                    case Ship -> System.out.print("S");
-                    case Hit -> System.out.print("X");
-                    case Miss -> System.out.print("O");
+                    case Water:
+                        System.out.print("-");
+                        break;
+                    case Ship:
+                        if(showShips){
+                            System.out.print("S");
+                        }
+                        else{
+                            System.out.print("-");
+                        }
+                        break;
+                    case Hit:
+                        System.out.print("X");
+                        break;
+                    case Miss:
+                        System.out.print("O");
+                        break;
                 }
-                System.out.print(" | ");
+                if(j != width -1){
+                    System.out.print(" | ");
+                }
             }
+            System.out.print("  " +i + " ");
             System.out.print(System.lineSeparator());
         }
-    }
-
-    public void printBoardOpponentsPerspective(){
-        for (int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                switch (board[i][j]){
-                    case Water, Ship -> System.out.print("-");
-                    case Hit -> System.out.print("X");
-                    case Miss -> System.out.print("O");
-                }
-                System.out.print(" | ");
-            }
-            System.out.print(System.lineSeparator());
-        }
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getShipsCount() {
-        return shipsCount;
     }
 }

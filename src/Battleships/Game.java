@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Game {
 
-    private int gameHeight;
-    private int gameWidth;
-    private int gameShipsCount;
+    private final int gameHeight;
+    private final int gameWidth;
+    private final int gameShipsCount;
 
     private final Player[] players = new Player[2];
     private Player winner = null;
@@ -29,15 +29,16 @@ public class Game {
 
     private Player createPlayer(int index) {
         Scanner sc = new Scanner(System.in);
+        try {
         System.out.println("Zadej jméno hráče:");
         String name = sc.nextLine();
-        System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...} enter jméno enter");
-        try {
+        System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...}:");
+
             return switch (sc.nextInt()) {
                 case 1 -> new ConsolePlayer(name, new Board(gameHeight, gameWidth, gameShipsCount));
                 case 2 -> new RandomComputerPlayer(name, new Board(gameHeight, gameWidth, gameShipsCount));
                 case 3 -> new HackerComputerPlayer(name, new Board(gameHeight, gameWidth, gameShipsCount), players[1 - index]);
-                default -> null;
+                default -> throw new Exception();
             };
         }
         catch (Exception ex){
@@ -76,28 +77,29 @@ public class Game {
     }
 
     private void printGameBoards(int turn) {
-        System.out.println("\n-------------------------------------------\n");
-        System.out.println("Turn: " + players[turn].getName());
         if(arePlayersLocal()){
-            players[0].getBoard().printBoardOpponentsPerspective();
-            System.out.println("---------------");
-            players[1].getBoard().printBoardOpponentsPerspective();
+            printBothBoards(false, false);
         }
         else if(players[0].getIsLocalPlayer()){
-            players[0].getBoard().printBoardPlayersPerspective();
-            System.out.println("---------------");
-            players[1].getBoard().printBoardOpponentsPerspective();
+            printBothBoards(true, false);
         }
         else if(players[1].getIsLocalPlayer()){
-            players[0].getBoard().printBoardOpponentsPerspective();
-            System.out.println("---------------");
-            players[1].getBoard().printBoardPlayersPerspective();
+            printBothBoards(false, true);
         }
         else{
-            players[0].getBoard().printBoardPlayersPerspective();
-            System.out.println("---------------");
-            players[1].getBoard().printBoardPlayersPerspective();
+            printBothBoards(true, true);
         }
+    }
+
+    private void printBothBoards(boolean player1, boolean player2){
+        System.out.println(players[0].getName());
+        players[0].getBoard().printBoard(player1);
+        for(var i = 0; i<gameWidth*4; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+        System.out.println(players[1].getName());
+        players[1].getBoard().printBoard(player2);
     }
 
     private void placeShips() {

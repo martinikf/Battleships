@@ -12,20 +12,19 @@ public class ConsolePlayer extends HumanLocalPlayer{
         sc = new Scanner(System.in);
     }
 
-    //TODO 1) ověřit správnost inputu 2) Zobecnit pro jiné lodě
-    //This method has to be rewritten for other than standard (straight) boat types
     @Override
     public void placeShips() {
         System.out.println("Pokud chcete lodě umístit automaticky napište: 'Y'.");
 
         if (sc.nextLine().toLowerCase(Locale.ROOT).equals("y")) {
             placeBoatsRandomly();
-        } else {
+        }
+        else {
             int boatsPlaced = 0;
 
             while (boatsPlaced < getBoard().getShipsCount()) {
-                getBoard().printBoardPlayersPerspective();
-                System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1)");
+                getBoard().printBoard(true);
+                System.out.println("Zadej souřadnice pro loď délky: " + (boatsPlaced + 1) + ", ve tvaru row:column:rotation (0:0:1) / (rotatace = 0 -> vodorovně rotace = 1 -> směr dolů)");
 
                 try {
                     String input = sc.nextLine();
@@ -49,9 +48,12 @@ public class ConsolePlayer extends HumanLocalPlayer{
 
     @Override
     public Coordinates getShootCoords() {
-        System.out.println("Zadej řádek enter sloupec enter.");
+        System.out.println("Střela hráče: " + name);
+        System.out.println("Zadej souřadnice střely row:col");
         try {
-            return new Coordinates(sc.nextInt(), sc.nextInt());
+            var input = sc.nextLine();
+            var splitInput = input.split(":");
+            return new Coordinates(Integer.parseInt(splitInput[0]), Integer.parseInt(splitInput[1]));
         }
         catch(Exception ex){
             sc.nextLine();

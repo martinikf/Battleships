@@ -21,7 +21,6 @@ public abstract class Player {
 
     public abstract Coordinates getShootCoords();
 
-    //TODO opravit někdy crashne indexoutofbounds
     protected void placeBoatsRandomly(){
         Random rand = new Random();
         int boatsPlaced = 0;

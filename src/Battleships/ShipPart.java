@@ -9,7 +9,6 @@ public class ShipPart {
         position = new Coordinates(row, col);
     }
 
-    //ověřit aby to bylo v rozměrech boardy?
     public int getRow() {
         return position.row();
     }
