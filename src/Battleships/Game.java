@@ -24,7 +24,7 @@ public class Game {
     private Player createPlayer(int index) {
         Scanner sc = new Scanner(System.in);
         try {
-            System.out.println("Zadej jméno hráče:");
+            System.out.println("Zadej jméno hráče "+ (index+1) +".:");
             String name = sc.nextLine();
             System.out.println("Zadej typ hráče: {1-konzole, 2-random, 3-hacker...}:");
 
